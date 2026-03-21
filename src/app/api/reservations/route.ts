@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
-import { getUserFromRequest } from "@/lib/auth";
 import Reservation from "@/models/Reservation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import type { UserType } from "@/app/types/types";
 
 export async function GET(req: NextRequest) {
     try {
-        const user = await getUserFromRequest(req);
+        const session = await getServerSession(authOptions);
+        const user = session?.user as UserType|undefined;
+        console.log(user);
         if(!user) {
             return NextResponse.json({
                 success: false, 
@@ -14,8 +18,8 @@ export async function GET(req: NextRequest) {
                 status: 401
             });
         }
+        
         await connectDB();
-
         let query;
     
         if(user.role !== 'admin') {
@@ -40,6 +44,7 @@ export async function GET(req: NextRequest) {
             status: 200
         })
     } catch(err) {
+        console.log(err);
         return NextResponse.json({
             success: false, 
             message: 'Cannot find Reservation',
