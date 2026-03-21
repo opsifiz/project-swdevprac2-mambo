@@ -1,4 +1,10 @@
-export { default } from 'next-auth/middleware';
+import { withAuth } from "next-auth/middleware";
+
+export const proxy = withAuth({
+  callbacks: {
+    authorized: ({ token }) => !!token,
+  },
+});
 
 export const config = {
   matcher: ["/api/reservations/:path*", "/api/restaurants/:path*/reservations/:path*"],

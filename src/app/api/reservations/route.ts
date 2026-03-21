@@ -5,11 +5,14 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import type { UserType } from "@/app/types/types";
 
+import mongoose from "mongoose";
+console.log(mongoose.modelNames());
+
 export async function GET(req: NextRequest) {
     try {
         const session = await getServerSession(authOptions);
         const user = session?.user as UserType|undefined;
-        console.log(user);
+        // console.log(user);
         if(!user) {
             return NextResponse.json({
                 success: false, 
@@ -23,15 +26,17 @@ export async function GET(req: NextRequest) {
         let query;
     
         if(user.role !== 'admin') {
-            query = Reservation.find({user: user.id}).populate({
-                path: 'restaurant',
-                select: 'name address tel'
-            })
+            // query = Reservation.find({user: user.id}).populate({
+            //     path: 'restaurant',
+            //     select: 'name address tel'
+            // })
+            query = Reservation.find({user: user.id});
         } else {
-            query = Reservation.find({}).populate({
-                path: 'restaurant',
-                select: 'name address tel'
-            });
+            // query = Reservation.find({}).populate({
+            //     path: 'restaurant',
+            //     select: 'name address tel'
+            // });
+            query = Reservation.find({});
         }
     
         const reservations = await query;
