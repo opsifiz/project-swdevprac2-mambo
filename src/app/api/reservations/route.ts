@@ -3,7 +3,7 @@ import { connectDB } from "@/lib/db";
 import Reservation from "@/models/Reservation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import type { UserType } from "@/app/types/types";
+import type { UserType } from "@/types/types";
 
 import mongoose from "mongoose";
 console.log(mongoose.modelNames());
@@ -30,13 +30,56 @@ export async function GET(req: NextRequest) {
             //     path: 'restaurant',
             //     select: 'name address tel'
             // })
-            query = Reservation.find({user: user.id});
+            query = Reservation.aggregate([
+                {$match: {
+                    user: user.id, 
+                }},
+                {$lookup: {
+                    from: 'restaurants',
+                    localField: 'restaurant',
+                    foreignField: '_id',
+                    as: 'restaurantData'
+                }},
+                {$unwind: '$restaurantData'},
+                {$lookup: {
+                    from: 'users',
+                    localField: 'user',
+                    foreignField: '_id',
+                    as: 'userData'
+                }},
+                {$unwind: '$userData'},
+                {$addFields: {
+                    userName: '$userData.name',
+                    restaurantName: '$restaurantData.name'
+                }},
+                {$unset: ['restaurantData', 'userData']}
+            ]);
         } else {
             // query = Reservation.find({}).populate({
             //     path: 'restaurant',
             //     select: 'name address tel'
             // });
-            query = Reservation.find({});
+            query = Reservation.aggregate([
+                {$lookup: {
+                    from: 'restaurants',
+                    localField: 'restaurant',
+                    foreignField: '_id',
+                    as: 'restaurantData'
+                }},
+                {$unwind: '$restaurantData'},
+                {$lookup: {
+                    from: 'users',
+                    localField: 'user',
+                    foreignField: '_id',
+                    as: 'userData'
+                }},
+                {$unwind: '$userData'},
+                {$addFields: {
+                    userName: '$userData.name',
+                    restaurantName: '$restaurantData.name'
+                }},
+                {$unset: ['restaurantData', 'userData']}
+            ]);
         }
     
         const reservations = await query;

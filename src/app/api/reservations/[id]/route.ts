@@ -5,7 +5,8 @@ import Reservation from "@/models/Reservation";
 import Restaurant from "@/models/Restaurant";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import type { UserType } from "@/app/types/types";
+import type { UserType } from "@/types/types";
+import mongoose from "mongoose";
 
 export async function GET(req: NextRequest, {params}:{params: Promise<{id: string}>}) {
     try {
@@ -26,7 +27,33 @@ export async function GET(req: NextRequest, {params}:{params: Promise<{id: strin
         //     path: 'restaurant',
         //     select: 'name address tel'
         // });
-        const reservation = await Reservation.findById(id);
+        const reservation = (await Reservation.aggregate([
+            {$match: {
+                _id: new mongoose.Types.ObjectId(id), 
+            }},
+            {$lookup: {
+                from: 'restaurants',
+                localField: 'restaurant',
+                foreignField: '_id',
+                as: 'restaurantData'
+            }},
+            {$unwind: '$restaurantData'},
+            {$lookup: {
+                from: 'users',
+                localField: 'user',
+                foreignField: '_id',
+                as: 'userData'
+            }},
+            {$unwind: '$userData'},
+            {$addFields: {
+                userName: '$userData.name',
+                    userEmail: '$userData.email',
+                    userTel: '$userData.telephone',
+                    restaurantName: '$restaurantData.name',
+                    restaurantAddress: '$restaurantData.address',
+            }},
+            {$unset: ['restaurantData', 'userData']}
+        ]))[0];
         if(!reservation) {
             return NextResponse.json({
                 success: false, 
@@ -81,7 +108,33 @@ export async function PUT(req: NextRequest, {params}:{params: Promise<{id: strin
         //     select: 'openTime closeTime'
         // })
         
-        let reservation = await Reservation.findById(id);
+        let reservation = (await Reservation.aggregate([
+            {$match: {
+                _id: new mongoose.Types.ObjectId(id), 
+            }},
+            {$lookup: {
+                from: 'restaurants',
+                localField: 'restaurant',
+                foreignField: '_id',
+                as: 'restaurantData'
+            }},
+            {$unwind: '$restaurantData'},
+            {$lookup: {
+                from: 'users',
+                localField: 'user',
+                foreignField: '_id',
+                as: 'userData'
+            }},
+            {$unwind: '$userData'},
+            {$addFields: {
+                userName: '$userData.name',
+                    userEmail: '$userData.email',
+                    userTel: '$userData.telephone',
+                    restaurantName: '$restaurantData.name',
+                    restaurantAddress: '$restaurantData.address',
+            }},
+            {$unset: ['restaurantData', 'userData']}
+        ]))[0];
         if(!reservation) {
             return NextResponse.json({
                 success: false,
