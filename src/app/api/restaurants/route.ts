@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import Restaurant from "@/models/Restaurant";
 import { connectDB } from "@/lib/db";
+import Reservation from "@/models/Reservation";
 
 export async function GET(req: Request) {
   await connectDB();
@@ -15,7 +16,8 @@ export async function GET(req: Request) {
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "25");
 
-    let query: any = Restaurant.find().populate("reservations");
+    // let query: any = Restaurant.find().populate("reservations");
+    let query: any = Restaurant.find();
 
     if (select) {
       query = query.select(select.split(",").join(" "));
