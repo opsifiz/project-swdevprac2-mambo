@@ -16,7 +16,6 @@ export async function GET(req: Request) {
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "25");
 
-    // let query: any = Restaurant.find().populate("reservations");
     let query: any = Restaurant.find();
 
     if (select) {

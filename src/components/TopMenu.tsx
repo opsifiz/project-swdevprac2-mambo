@@ -13,12 +13,23 @@ export default async function TopMenu() {
     <TopMenuItem title="RESERVE" pageRef="/reservations"  cstart="#272727" cend="#BEBEBE" />
     {!user && (
       <>
+<<<<<<< HEAD
         <TopMenuItem title="REGISTER" pageRef="/api/auth/signup"  cstart="#686A93" cend="#C7D2FF" />
+=======
+        <TopMenuItem title="REGISTER" pageRef="/register"  cstart="#686A93" cend="#C7D2FF" />
+>>>>>>> restaurant
         <TopMenuItem title="LOGIN" pageRef="/api/auth/signin"  cstart="#BBAABF" cend="#CD8181" />
       </>
     )}
     {user && (
+<<<<<<< HEAD
       <TopMenuItem title="LOGOUT" pageRef="/api/auth/signout"  cstart="#BBAABF" cend="#CD8181" />
+=======
+      <div className="relative flex flex-col h-full justify-center items-center">
+      <TopMenuItem title="LOGOUT" pageRef="/api/auth/signout"  cstart="#BBAABF" cend="#CD8181" />
+      <h1 className="bottom-2 right-3 absolute font-bold">{user.name}</h1>
+      </div>
+>>>>>>> restaurant
     )}
   </ul>
 );

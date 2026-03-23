@@ -5,12 +5,16 @@ setServers(["1.1.1.1", "8.8.8.8"]);
 
 const nextConfig: NextConfig = {
   images: {
-    domains: [
-      "dynamic-media-cdn.tripadvisor.com",
-      "img.wongnai.com",
-      "images.unsplash.com"
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "dynamic-media-cdn.tripadvisor.com",
+      },
+      {
+        protocol: "https",
+        hostname: "img.wongnai.com",
+      },
     ],
   },
 };
-
 export default nextConfig;
