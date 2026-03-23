@@ -19,7 +19,7 @@ console.log("inner")
     const reservationsData = await reservationsRes.json();
     const reservations = reservationsData.data;
     // console.log(reservationsRes);
-    // console.log(reservations);
+    console.log(reservations);
     
     return (
         <div className="w-full min-h-dvh flex flex-col px-12"> 
@@ -29,8 +29,8 @@ console.log("inner")
                     {reservations.map((it:any) => (
                         <Link href={`/reservations/${it._id}`} key={it._id}>
                             <ReserveItemContainer>
-                                <ReserveItemHeader>{it.restaurantName}</ReserveItemHeader>
-                                <ReserveItemContent>{it.userName}</ReserveItemContent>
+                                <ReserveItemHeader>{it.restaurant}</ReserveItemHeader>
+                                <ReserveItemContent>{it.user}</ReserveItemContent>
                                 <ReserveItemContent>{it.startDateTime.toString()} - {it.endDateTime.toString()}</ReserveItemContent>
                             </ReserveItemContainer>
                         </Link>

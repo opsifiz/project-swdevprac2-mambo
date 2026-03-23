@@ -1,43 +1,68 @@
-'use client'
+"use client";
 import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 
+type Restaurant = {
+  name: string;
+  address: string;
+  imgsrc: string;
+  tel: string;
+};
+
 export default function Banner() {
+  const [item, setCovers] = useState<Restaurant[]>([]);
+  const [index, setIndex] = useState(0);
 
-  const covers = [
-    '/images/teenoiGold.jpg',
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/api/restaurantsADS");
+        const data = await res.json();
+        setCovers(data.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-   const [index, setIndex] = useState(0);
-    const router = useRouter();
+    fetchData();
+  }, []);
+
+  const handleClick = () => {
+    if (item.length === 0) return;
+    setIndex((prev) => (prev + 1) % item.length);
+  };
 
   return (
-    <div className="relative w-[900px] h-[390px] my-0 mr-15 rounded-4xl">
+    <div className="flex gap-5 justify-end w-[100vw] h-[390px] mr-[3vw]">
 
-      <Image onClick={()=>setIndex(index+1)}
-        src={covers[index % 4]}
-        alt="cover"
-        fill
-        className="object-cover rounded-4xl border-[2px] border-black"
-      />
+      <div>
+        {item.length > 0 && (
+          <>
+            <h1 className="w-[700px] text-[50px] mt-[80px] font-thin [text-shadow:0_4px_20px_rgba(0,0,0,1)]">
+              {item[index].name}
+            </h1>
 
-      {/* <h1 className="w-screen absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-[3rem] text-center">
-        where every event finds its venue
-      </h1>
+            <p className="w-[700px] text-[30px] mt-[15px] font-thin [text-shadow:0_4px_20px_rgba(0,0,0,1)]">
+              {item[index].address} <br/>
+              Tel: {item[index].tel}
+            </p>
+          </>
+        )}
+      </div>
 
-      <h4 className="w-[60vw] absolute top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-[1.2rem] text-center">
-        หนึ่งในปัจจัยสำคัญของงานเลี้ยงที่สมบูรณ์แบบ คือ การวางแผนจัดงานอย่างครอบคลุม
-        ตั้งแต่การทำรายชื่อแขก คำนวณจำนวนแขกทั้งหมด รายชื่อเมนูอาหารคาว-หวาน
-        ไปจนถึงการเลือกสถานที่จัดงานเลี้ยง
-      </h4>
+      <div className="relative w-[900px] h-full rounded-4xl">
+        {item.length > 0 && (
+          <Image
+            onClick={handleClick}
+            src={item[index].imgsrc}
+            alt="cover"
+            fill
+            className="object-cover rounded-4xl border-[2px] border-black cursor-pointer"
+          />
+        )}
 
-        <button className="absolute bottom-[10px] right-[10px] bg-white text-black px-4 py-2 rounded-lg hover:bg-gray-200" onClick={(e) => {e.stopPropagation(); router.push("/venue"); }}>
-          Select Venue
-        </button> */}
-
+        {/* gradient overlay */}
         <Box className="absolute inset-0 pointer-events-none">
           <Box
             sx={{
@@ -46,13 +71,12 @@ export default function Banner() {
               left: 0,
               width: "30%",
               height: "100%",
-              background: "linear-gradient(to right, rgba(0,0,0,0.7), transparent)",
+              background:
+                "linear-gradient(to right, rgba(0,0,0,0.7), transparent)",
               borderTopLeftRadius: 20,
               borderBottomLeftRadius: 20,
-              zIndex: 1,
             }}
           />
-
           <Box
             sx={{
               position: "absolute",
@@ -60,15 +84,14 @@ export default function Banner() {
               right: 0,
               width: "30%",
               height: "100%",
-              background: "linear-gradient(to left, rgba(0,0,0,0.7), transparent)",
+              background:
+                "linear-gradient(to left, rgba(0,0,0,0.7), transparent)",
               borderTopRightRadius: 20,
               borderBottomRightRadius: 20,
-              zIndex: 1,
             }}
           />
-      </Box>
-
-
+        </Box>
+      </div>
     </div>
   );
 }

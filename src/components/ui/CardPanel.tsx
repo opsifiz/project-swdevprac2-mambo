@@ -2,6 +2,7 @@ import Card from './Card';
 import Link from "next/link"
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
+import MySwiper from './mySwiper';
 
 type RatingAction = 
   | { type: 'SET_RATING'; venueName: string; rating: number }
@@ -41,19 +42,8 @@ export default async function CardPanel() {
 
   return (
     <div className="fixed left-0 bottom-0 w-full">
-
-  <div className="[&::-webkit-scrollbar]:hidden flex flex-nowrap p-10 gap-10 overflow-x-auto ">
-    {restaurants.map((it: any) => (
-  <Link key={it._id} href={`/restaurants/${it._id}`} className="flex-shrink-0">
-    <Card
-      imgSrc={it.imgsrc}
-      venueName={it.name}
-    />
-  </Link>
-))}
-  </div>
-
-</div>
+      <MySwiper restaurants={restaurants} />
+    </div>
 
   );
 }
