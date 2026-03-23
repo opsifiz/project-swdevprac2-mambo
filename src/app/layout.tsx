@@ -4,7 +4,7 @@ import "./globals.css";
 import NextAuthProvider from "@/providers/NextAuthProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import Navbar from "@/components/Navbar";
+import { Toaster } from "sonner";
 import TopMenu from "@/components/TopMenu";
 
 import { Grandiflora_One } from 'next/font/google';
@@ -46,6 +46,7 @@ export default async function RootLayout({
         <NextAuthProvider session={session}>
           {children}
         </NextAuthProvider>
+        <Toaster/>
       </body>
     </html>
   );

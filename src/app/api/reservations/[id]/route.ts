@@ -11,22 +11,22 @@ import mongoose from "mongoose";
 export async function GET(req: NextRequest, {params}:{params: Promise<{id: string}>}) {
     try {
         const session = await getServerSession(authOptions);
-        const user = session?.user as UserType|undefined;
-        if(!user) {
+
+        if(!session || !session.user){
             return NextResponse.json({
                 success: false, 
                 message: 'Not authorized',
             }, {
                 status: 401
             });
+
         }
+
+        const user = session.user as UserType;
+
         await connectDB();
         
         const { id } = await params;
-        // const reservation = await Reservation.findById(id).populate({
-        //     path: 'restaurant',
-        //     select: 'name address tel'
-        // });
         const reservation = (await Reservation.aggregate([
             {$match: {
                 _id: new mongoose.Types.ObjectId(id), 
@@ -47,10 +47,12 @@ export async function GET(req: NextRequest, {params}:{params: Promise<{id: strin
             {$unwind: '$userData'},
             {$addFields: {
                 userName: '$userData.name',
-                    userEmail: '$userData.email',
-                    userTel: '$userData.telephone',
-                    restaurantName: '$restaurantData.name',
-                    restaurantAddress: '$restaurantData.address',
+                userEmail: '$userData.email',
+                userTel: '$userData.telephone',
+                restaurantName: '$restaurantData.name',
+                restaurantAddress: '$restaurantData.address',
+                openTime: '$restaurantData.openTime',
+                closeTime: '$restaurantData.closeTime'
             }},
             {$unset: ['restaurantData', 'userData']}
         ]))[0];
@@ -82,7 +84,7 @@ export async function GET(req: NextRequest, {params}:{params: Promise<{id: strin
         console.log(err);
         NextResponse.json({
             success: false, 
-            message: 'Cannot find Reservation'
+            message: 'Internal Server Error'
         }, {
             status: 500
         });
@@ -92,15 +94,19 @@ export async function GET(req: NextRequest, {params}:{params: Promise<{id: strin
 export async function PUT(req: NextRequest, {params}:{params: Promise<{id: string}>}) {
     try {
         const session = await getServerSession(authOptions);
-        const user = session?.user as UserType|undefined;
-        if(!user) {
+
+        if(!session || !session.user){
             return NextResponse.json({
                 success: false, 
                 message: 'Not authorized',
             }, {
                 status: 401
             });
+
         }
+
+        const user = session.user as UserType;
+
         await connectDB();
         const {id} = await params;
         // let reservation = await Reservation.findById(req.params.id).populate({
@@ -128,10 +134,12 @@ export async function PUT(req: NextRequest, {params}:{params: Promise<{id: strin
             {$unwind: '$userData'},
             {$addFields: {
                 userName: '$userData.name',
-                    userEmail: '$userData.email',
-                    userTel: '$userData.telephone',
-                    restaurantName: '$restaurantData.name',
-                    restaurantAddress: '$restaurantData.address',
+                userEmail: '$userData.email',
+                userTel: '$userData.telephone',
+                restaurantName: '$restaurantData.name',
+                restaurantAddress: '$restaurantData.address',
+                openTime: '$restaurantData.openTime',
+                closeTime: '$restaurantData.closeTime'
             }},
             {$unset: ['restaurantData', 'userData']}
         ]))[0];
@@ -152,27 +160,19 @@ export async function PUT(req: NextRequest, {params}:{params: Promise<{id: strin
                 status: 401
             });
         }
-        
-        // // format again because maybe xss sanitizer explode the data
-        // if (typeof req.body.startDateTime === "string") {
-        //     req.body.startDateTime = req.body.startDateTime.replace(
-        //         /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(\d{3})Z$/,
-        //         "$1.$2Z"
-        //     );
-        // }
-        // if (typeof req.body.endDateTime === "string") {
-        //     req.body.endDateTime = req.body.endDateTime.replace(
-        //         /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(\d{3})Z$/,
-        //         "$1.$2Z"
-        //     );
-        // }
         let body = await req.json();
         let restaurantId = body.restaurant;
         let restaurant;
         if(!restaurantId) {
-            restaurant = reservation.restaurant;
+            restaurant = {
+                openTime: reservation.openTime,
+                closeTime: reservation.closeTime
+            };
         } else {
-            restaurant = await Restaurant.findById(restaurantId) || reservation.restaurant;
+            restaurant = (await Restaurant.findById(restaurantId)) || {
+                openTime: reservation.openTime,
+                closeTime: reservation.closeTime
+            };
         }
         if(!restaurant) {
             return NextResponse.json({
@@ -242,18 +242,22 @@ export async function PUT(req: NextRequest, {params}:{params: Promise<{id: strin
     }
 }
 
-export async function DELETE({params}:{params: Promise<{id: string}>}) {
+export async function DELETE(req: NextRequest, {params}:{params: Promise<{id: string}>}) {
     try {
         const session = await getServerSession(authOptions);
-        const user = session?.user as UserType|undefined;
-        if(!user) {
+
+        if(!session || !session.user){
             return NextResponse.json({
                 success: false, 
                 message: 'Not authorized',
             }, {
                 status: 401
             });
+
         }
+
+        const user = session.user as UserType;
+        
         await connectDB();
         const { id } = await params;
         const reservation = await Reservation.findById(id);
@@ -275,7 +279,7 @@ export async function DELETE({params}:{params: Promise<{id: string}>}) {
             });
         }
         await reservation.deleteOne();
-        NextResponse.json({
+        return NextResponse.json({
             success: true, 
             data: {}
         }, {

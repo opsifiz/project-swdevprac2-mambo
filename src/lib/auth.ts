@@ -50,6 +50,10 @@ export const authOptions: AuthOptions = {
     async session({session, token, user}) {
       session.user = token as any;
       return session;
+    },
+    async redirect({ url, baseUrl }) {
+      // บังคับให้ไปหน้าแรกเสมอ
+      return baseUrl;
     }
   }
 };

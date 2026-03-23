@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import { Box } from "@mui/material";
+import { AddReserveCard } from "@/components/AddReserveCard";
+
 
 export default async function RestaurantsPage({params}: {params: Promise<{id: string}>}) {
     const { id } = await params;

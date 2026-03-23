@@ -1,7 +1,7 @@
+import Navbar from "@/components/Navbar"
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
-import { ReserveItemContainer, ReserveItemContent, ReserveItemHeader } from "@/components/ReserveItem";
-import Link from "next/link";
+import ReservationClient from "./ReservationClient";
 
 export default async function ReservationPage() {
 console.log("inner")
@@ -18,25 +18,11 @@ console.log("inner")
     }
     const reservationsData = await reservationsRes.json();
     const reservations = reservationsData.data;
-    // console.log(reservationsRes);
-    console.log(reservations);
     
     return (
-        <div className="w-full min-h-dvh flex flex-col px-12"> 
-            <div className="max-w-7xl mx-auto py-8 w-full space-y-4">
-                <h1 className="text-2xl font-bold">My Reservations</h1>
-                <div className="grid grid-cols-2 gap-4 w-full">
-                    {reservations.map((it:any) => (
-                        <Link href={`/reservations/${it._id}`} key={it._id}>
-                            <ReserveItemContainer>
-                                <ReserveItemHeader>{it.restaurant}</ReserveItemHeader>
-                                <ReserveItemContent>{it.user}</ReserveItemContent>
-                                <ReserveItemContent>{it.startDateTime.toString()} - {it.endDateTime.toString()}</ReserveItemContent>
-                            </ReserveItemContainer>
-                        </Link>
-                    ))}
-                </div>
-            </div>
+        <div className="w-full min-h-dvh flex flex-col px-12">
+            <Navbar/>
+            <ReservationClient initReservation={reservations}/>
         </div>
     )
 }

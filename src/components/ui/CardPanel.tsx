@@ -1,5 +1,3 @@
-import Card from './Card';
-import Link from "next/link"
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import MySwiper from './mySwiper';

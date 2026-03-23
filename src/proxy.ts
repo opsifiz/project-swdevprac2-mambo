@@ -7,5 +7,5 @@ export const proxy = withAuth({
 });
 
 export const config = {
-  matcher: ["/api/reservations/:path*", "/api/restaurants/:path*/reservations/:path*"],
+  matcher: ["/api/reservations/:path*", "/reservations/:path*"],
 };
