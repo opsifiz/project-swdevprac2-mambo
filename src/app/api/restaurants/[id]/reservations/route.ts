@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import type { UserType } from "@/app/types/types";
+import type { UserType } from "@/types/types";
 import { connectDB } from "@/lib/db";
 import Reservation from "@/models/Reservation";
 import Restaurant from "@/models/Restaurant";
@@ -28,13 +28,66 @@ export async function GET(req: NextRequest, {params}:{params: Promise<{id: strin
             //     path: 'restaurant',
             //     select: 'name address tel'
             // })
-            query = Reservation.find({user: user.id, restaurant: id});
+            query = Reservation.aggregate([
+                {$match: {
+                    user: user.id, 
+                    restaurant: id
+                }},
+                {$lookup: {
+                    from: 'restaurants',
+                    localField: 'restaurant',
+                    foreignField: '_id',
+                    as: 'restaurantData'
+                }},
+                {$unwind: '$restaurantData'},
+                {$lookup: {
+                    from: 'users',
+                    localField: 'user',
+                    foreignField: '_id',
+                    as: 'userData'
+                }},
+                {$unwind: '$userData'},
+                {$addFields: {
+                    userName: '$userData.name',
+                    userEmail: '$userData.email',
+                    userTel: '$userData.telephone',
+                    restaurantName: '$restaurantData.name',
+                    restaurantAddress: '$restaurantData.address',
+                }},
+                {$unset: ['restaurantData', 'userData']}
+            ]);
         } else {
             // query = Reservation.find({restaurant: id}).populate({
             //     path: 'restaurant',
             //     select: 'name address tel'
             // });
-            query = Reservation.find({restaurant: id});
+            query = Reservation.aggregate([
+                {$match: {
+                    restaurant: id
+                }},
+                {$lookup: {
+                    from: 'restaurants',
+                    localField: 'restaurant',
+                    foreignField: '_id',
+                    as: 'restaurantData'
+                }},
+                {$unwind: '$restaurantData'},
+                {$lookup: {
+                    from: 'users',
+                    localField: 'user',
+                    foreignField: '_id',
+                    as: 'userData'
+                }},
+                {$unwind: '$userData'},
+                {$addFields: {
+                    userName: '$userData.name',
+                    userEmail: '$userData.email',
+                    userTel: '$userData.telephone',
+                    restaurantName: '$restaurantData.name',
+                    restaurantAddress: '$restaurantData.address',
+                }},
+                {$unset: ['restaurantData', 'userData']}
+            ]);
         }
 
         const reservations = await query;
