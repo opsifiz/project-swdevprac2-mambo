@@ -1,11 +1,19 @@
 import Navbar from "@/components/Navbar"
 import Container from "@/components/ui/container"
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { ReserveItemContainer, ReserveItemContent, ReserveItemHeader } from "@/components/ReserveItem";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export default async function ReservationPage() {
+
+    const session = await getServerSession(authOptions);
+    if(!session){
+        redirect("/api/auth/signin");
+    }
+
     const h = await headers();
     const reservationsRes = await fetch(`${process.env.NEXTAUTH_URL}/api/reservations`, {
         cache: 'no-store',
