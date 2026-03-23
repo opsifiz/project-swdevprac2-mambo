@@ -7,21 +7,6 @@ import { headers } from "next/headers";
 
 export default async function Home() {
 
-  const h = await headers();
-      const restaurantsRes = await fetch(`${process.env.NEXTAUTH_URL}/api/restaurants`, {
-          cache: 'no-store',
-          headers: {
-              cookie: h.get("cookie") ?? "",
-          }
-      });
-      if(!restaurantsRes.ok) {
-          notFound();
-      }
-      const restaurantsData = await restaurantsRes.json();
-      const restaurants = restaurantsData.data;
-      // console.log(reservationsRes);
-      // console.log(reservations);
-
   return (
     <div className="flex justify-end">
 
