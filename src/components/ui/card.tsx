@@ -29,6 +29,15 @@ export default function Card( {imgSrc , venueName , onRatingChange}:{imgSrc:stri
           }}
         />
 
+        <svg width="0" height="0">
+          <defs>
+            <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="10%" stopColor="#ffffff" />
+              <stop offset="100%" stopColor="#ffaa00" />
+            </linearGradient>
+          </defs>
+        </svg>
+
         <Rating
           value={5}
           readOnly
@@ -37,7 +46,17 @@ export default function Card( {imgSrc , venueName , onRatingChange}:{imgSrc:stri
             bottom: 12,
             left: 16,
             zIndex: 2,
-            fontSize: "2rem"
+            fontSize: "2rem",
+            "& .MuiRating-iconFilled svg": {
+              fill: "url(#starGradient)",
+              stroke: "black",
+              strokeWidth: 1,
+            },
+
+            "& .MuiRating-iconEmpty svg": {
+              stroke: "#333",
+              strokeWidth: 1,
+            },
           }}
         />
 

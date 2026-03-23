@@ -12,7 +12,7 @@ export default function ReservationClient({initReservation}:{initReservation:Res
         setReservations((pv) => pv.filter((it) => it._id!==id))
     }
     return (
-        <div className="max-w-7xl mx-auto py-8 w-full space-y-4">
+        <div className="max-w-7xl mx-auto py-8 w-full space-y-4 ">
             <h1 className="text-2xl font-bold">My Reservations</h1>
             <div className="grid grid-cols-2 gap-4 w-full max-h-96">
                 {reservations.map((it:any) => (

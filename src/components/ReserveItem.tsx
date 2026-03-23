@@ -3,7 +3,8 @@ import { HTMLAttributes } from "react"
 
 const ReserveItemContainer = ({children, className, ...props}:React.HTMLAttributes<HTMLDivElement>) => {
     return (
-        <div className={cn(className, "w-full px-4 py-2 rounded-md shadow")} {...props}>
+        <div className={cn(className, "w-full px-4 py-2 rounded-md shadow " ) }
+        style={{ background: `linear-gradient(to top right, #DEDEDE, #FFFFFF)`,}} {...props}>
             {children}
         </div>
     )
@@ -11,12 +12,12 @@ const ReserveItemContainer = ({children, className, ...props}:React.HTMLAttribut
 
 const ReserveItemHeader = ({children, className}:React.HTMLAttributes<HTMLDivElement>) => {
     return (
-        <h1 className={cn(className, "text-lg font-bold")}>{children}</h1>
+        <h1 className={cn(className, "text-[30px] font-bold [text-shadow:0_4px_20px_rgba(0,0,0,1)]")}>{children}</h1>
     )
 }
 const ReserveItemContent = ({children, className}:React.HTMLAttributes<HTMLDivElement>) => {
     return (
-        <p className={cn(className, "text-base")}>{children}</p>
+        <p className={cn(className, "text-[22px] font-semi-bold [text-shadow:0_4px_20px_rgba(0,0,0,1)]")}>{children}</p>
     )
 }
 

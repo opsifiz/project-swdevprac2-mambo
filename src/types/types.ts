@@ -22,6 +22,7 @@ export type RestaurantType = {
     imgsrc: string,
     name: string,
     address: string,
+    tel:string,
     openTime: string,
     closeTime: string,
 }

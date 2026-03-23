@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import { Box } from "@mui/material";
+import Light from "@/components/ui/Light"
 import RestaurantClient from "./RestaurantClient";
 
 
@@ -27,6 +28,9 @@ export default async function RestaurantsPage({params}: {params: Promise<{id: st
     // console.log(reservations);
 
     return (
-        <RestaurantClient restaurants={restaurants}/>
+        <>
+            <Light/>
+            <RestaurantClient restaurants={restaurants}/>
+        </>
     )
 }

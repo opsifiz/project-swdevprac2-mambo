@@ -3,6 +3,7 @@ import Container from "@/components/ui/container"
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import EditReserve from "./EditReserve";
+import Light from "@/components/ui/Light"
 
 export default async function ReservationPage({params}: {params: Promise<{id: string}>}) {
     const { id } = await params;
@@ -23,14 +24,35 @@ export default async function ReservationPage({params}: {params: Promise<{id: st
     console.log(reservation);
     
     return (
-        <div className="w-full min-h-dvh flex flex-col px-12">
-            <div className="flex-1 py-8 max-w-7xl mx-auto w-full">
-                <h1 className="text-2xl font-bold">Reservation</h1>
+        <div className="w-full flex flex-col px-12">
+            <Light/>
+
+        <div className="fixed inset-0 -z-10">
+          <img
+            src="/images/BG2.png"
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+
+          <img
+            src="/images/BG.png"
+            className="absolute inset-0 w-full h-full object-cover z-10"
+          />
+          
+          <div
+            className="absolute inset-0 w-full h-full z-20 bottom-0"
+            style={{  
+              background: `linear-gradient(to top, #cebba89a, #ffffff00)`
+            }}
+          />
+        </div>
+
+            <div className="flex-1 py-8 max-w-[1400px] mx-auto w-full ">
+                <h1 className="text-2xl font-bold mb-3">Reservation</h1>
                 <div className="grid grid-cols-3 gap-4">
-                    <Container className="col-span-1">
-                        <p>Reserved User: {reservation.userName ?? "Unknown"}</p>
-                        <p>User Email: {reservation.userEmail ?? "Unknown"}</p>
-                        <p>User Tel: {reservation.userTel ?? "Unknown"}</p>
+                    <Container className="col-span-1 bg-white">
+                        <h1>Reserved User: {reservation.userName ?? "Unknown"}</h1>
+                        <h1>User Email: {reservation.userEmail ?? "Unknown"}</h1>
+                        <h1>User Tel: {reservation.userTel ?? "Unknown"}</h1>
                     </Container>
                     <EditReserve id={id} initReservation={reservation}/>
                 </div>

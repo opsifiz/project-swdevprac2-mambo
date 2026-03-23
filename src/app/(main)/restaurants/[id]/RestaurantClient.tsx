@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { RestaurantType } from "@/types/types"
 import { AddReserveCard } from "@/components/AddReserveCard";
+import { Rating } from "@mui/material";
 
 export default function RestaurantClient({restaurants}:{restaurants:RestaurantType}) {
     const [showCard, setShowCard] = useState(false);
@@ -28,15 +29,48 @@ export default function RestaurantClient({restaurants}:{restaurants:RestaurantTy
           />
         </div>
 
-            <div className="relative flex flex-col w-[1500px] h-[600px] rounded-3xl overflow-hidden bg-white shadow-[0_0px_40px_rgba(0,0,0,0.7)]">
+            <div className="relative flex flex-col w-[1500px] h-[600px] rounded-3xl bg-white shadow-[0_0px_40px_rgba(0,0,0,0.7)]">
+
+              <svg width="0" height="0">
+                <defs>
+                  <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="10%" stopColor="#ffffff" />
+                    <stop offset="100%" stopColor="#ffaa00" />
+                  </linearGradient>
+                </defs>
+              </svg>
+
+              <Rating
+                value={5}
+                readOnly
+                sx={{
+                  position: "absolute",
+                  top: -70,
+                  left: 16,
+                  zIndex: 2,
+                  fontSize: "3rem",
+
+                  "& .MuiRating-iconFilled svg": {
+                    fill: "url(#starGradient)",
+                    stroke: "black",
+                    strokeWidth: 1,
+                  },
+
+                  "& .MuiRating-iconEmpty svg": {
+                    stroke: "#333",
+                    strokeWidth: 1,
+                  },
+                }}
+              />
+
                 <img src={restaurants.imgsrc} className=" rounded-3xl w-full h-[70%] object-cover border-2 border-white shadow-[0_20px_20px_rgba(0,0,0,0.6)]" />
                 
                 <div className="flex justify-start items-center flex-1 gap-15 [text-shadow:0_4px_20px_rgba(0,0,0,1)]">
                     <h1 className=" ml-30 pr-15 text-[60px] border-r-1 border-black">{restaurants.name}</h1>
-                    <h1 className=" text-[30px]">{restaurants.address}</h1>
+                    <h1 className=" text-[30px]">{restaurants.address} Tel: {restaurants.tel} </h1>
                 </div>
 
-                <button className="absolute bottom-2 right-2 w-50 h-18 text-white bg-black text-[35px] rounded-3xl [text-shadow:0_0_20px_white,0_0_60px_rgba(255,255,255,1),0_0_100px_rgba(255,255,255,0.8)] font-bold
+                <button className="absolute bottom-2 right-2 w-40 h-12 text-white bg-black text-[30px] rounded-xl [text-shadow:0_0_20px_white,0_0_60px_rgba(255,255,255,1),0_0_100px_rgba(255,255,255,0.8)] font-bold
                 transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl"
                   onClick={(e) => {
                     setShowCard(true)

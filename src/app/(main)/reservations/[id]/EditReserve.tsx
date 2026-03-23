@@ -65,7 +65,7 @@ export default function EditReserve({id, initReservation}:{id: string, initReser
     }
     
     return (
-        <Container className="col-span-2">
+        <Container className="col-span-2 bg-white">
             <p>Restaurant Name: {reservation.restaurantName ?? "Unknown"}</p>
             <p>Reserved Address: {reservation.restaurantAddress ?? "Unknown"}</p>
             <p>Available Time: {reservation.openTime ?? "Unknown"} - {reservation.closeTime ?? "Unknown"}</p>
@@ -82,7 +82,7 @@ export default function EditReserve({id, initReservation}:{id: string, initReser
                 <label htmlFor="reserve-end">End:</label>
                 <input id='reserve-end' type='time' className="border" value={endTime} onChange={(e) => setEndTime(e.target.value)}/>
             </span>
-            <div className="flex justify-end">
+            <div className="flex justify-end ">
                 <Button onClick={() => {
                     handleSave()
                 }}>Save</Button>
