@@ -2,7 +2,6 @@ import Navbar from "@/components/Navbar"
 import Container from "@/components/ui/container"
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
-import { Button } from "@/components/ui/button";
 import EditReserve from "./EditReserve";
 
 export default async function ReservationPage({params}: {params: Promise<{id: string}>}) {
