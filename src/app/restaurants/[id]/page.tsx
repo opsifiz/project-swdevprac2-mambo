@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
+import { AddReserveCard } from "@/components/AddReserveCard";
 
 export default async function RestaurantsPage({params}: {params: Promise<{id: string}>}) {
     const { id } = await params;
@@ -24,6 +25,9 @@ export default async function RestaurantsPage({params}: {params: Promise<{id: st
     // console.log(reservations);
 
     return (
-        <img src={restaurants.imgsrc} className="w-full h-200"></img>
+        // <img src={restaurants.imgsrc} className="w-full h-200"></img>
+
+        //test remove this, if finish
+        <AddReserveCard id={id}/>
     )
 }
