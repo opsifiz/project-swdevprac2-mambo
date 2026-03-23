@@ -11,15 +11,19 @@ import mongoose from "mongoose";
 export async function GET(req: NextRequest, {params}:{params: Promise<{id: string}>}) {
     try {
         const session = await getServerSession(authOptions);
-        const user = session?.user as UserType|undefined;
-        if(!user) {
+
+        if(!session || !session.user){
             return NextResponse.json({
                 success: false, 
                 message: 'Not authorized',
             }, {
                 status: 401
             });
+
         }
+
+        const user = session.user as UserType;
+
         await connectDB();
         
         const { id } = await params;
@@ -80,7 +84,7 @@ export async function GET(req: NextRequest, {params}:{params: Promise<{id: strin
         console.log(err);
         NextResponse.json({
             success: false, 
-            message: 'Cannot find Reservation'
+            message: 'Internal Server Error'
         }, {
             status: 500
         });
@@ -90,15 +94,19 @@ export async function GET(req: NextRequest, {params}:{params: Promise<{id: strin
 export async function PUT(req: NextRequest, {params}:{params: Promise<{id: string}>}) {
     try {
         const session = await getServerSession(authOptions);
-        const user = session?.user as UserType|undefined;
-        if(!user) {
+
+        if(!session || !session.user){
             return NextResponse.json({
                 success: false, 
                 message: 'Not authorized',
             }, {
                 status: 401
             });
+
         }
+
+        const user = session.user as UserType;
+
         await connectDB();
         const {id} = await params;
         // let reservation = await Reservation.findById(req.params.id).populate({
@@ -237,15 +245,19 @@ export async function PUT(req: NextRequest, {params}:{params: Promise<{id: strin
 export async function DELETE({params}:{params: Promise<{id: string}>}) {
     try {
         const session = await getServerSession(authOptions);
-        const user = session?.user as UserType|undefined;
-        if(!user) {
+
+        if(!session || !session.user){
             return NextResponse.json({
                 success: false, 
                 message: 'Not authorized',
             }, {
                 status: 401
             });
+
         }
+
+        const user = session.user as UserType;
+        
         await connectDB();
         const { id } = await params;
         const reservation = await Reservation.findById(id);
