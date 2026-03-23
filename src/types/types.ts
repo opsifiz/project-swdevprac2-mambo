@@ -10,6 +10,7 @@ export type UserType = {
 }
 
 export type ReservationType = {
+    _id: string,
     startDateTime: Date
     endDateTime: Date
     user: string
