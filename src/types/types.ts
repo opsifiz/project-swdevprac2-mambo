@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 export type UserType = {
     id: string,
     name: string,
@@ -5,4 +7,11 @@ export type UserType = {
     email: string,
     role: string,
     telephone: string,
+}
+
+export type ReservationType = {
+    startDateTime: Date
+    endDateTime: Date
+    user: string
+    restaurant: string
 }
