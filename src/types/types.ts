@@ -16,3 +16,12 @@ export type ReservationType = {
     user: string
     restaurant: string
 }
+
+export type RestaurantType = {
+    _id: string
+    imgsrc: string,
+    name: string,
+    address: string,
+    openTime: string,
+    closeTime: string,
+}

@@ -24,7 +24,6 @@ export default async function ReservationPage({params}: {params: Promise<{id: st
     
     return (
         <div className="w-full min-h-dvh flex flex-col px-12">
-            <Navbar/>
             <div className="flex-1 py-8 max-w-7xl mx-auto w-full">
                 <h1 className="text-2xl font-bold">Reservation</h1>
                 <div className="grid grid-cols-3 gap-4">

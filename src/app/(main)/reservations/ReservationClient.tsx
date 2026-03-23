@@ -20,8 +20,8 @@ export default function ReservationClient({initReservation}:{initReservation:Res
                         <Link href={`/reservations/${it._id}`} className="block w-full">
                             <div>
                                 <ReserveItemHeader>{it.restaurantName}</ReserveItemHeader>
-                                <ReserveItemContent>{it.userName}</ReserveItemContent>
-                                <ReserveItemContent>{it.startDateTime.toString()} - {it.endDateTime.toString()}</ReserveItemContent>
+                                <ReserveItemContent>Reserved By: {it.userName}</ReserveItemContent>
+                                <ReserveItemContent>Reserved Time: {it.startDateTime.toString()} - {it.endDateTime.toString()}</ReserveItemContent>
                             </div>
                         </Link>
                         <AlertRemoveDialog id={it._id} removeReserve={() => removeReserve(it._id)}/>

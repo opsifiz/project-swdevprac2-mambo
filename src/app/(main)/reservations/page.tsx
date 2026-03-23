@@ -21,7 +21,7 @@ console.log("inner")
     
     return (
         <div className="w-full min-h-dvh flex flex-col px-12">
-            <Navbar/>
+            {/* <Navbar/> */}
             <ReservationClient initReservation={reservations}/>
         </div>
     )

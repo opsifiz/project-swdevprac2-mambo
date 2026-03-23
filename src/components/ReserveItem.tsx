@@ -11,7 +11,7 @@ const ReserveItemContainer = ({children, className, ...props}:React.HTMLAttribut
 
 const ReserveItemHeader = ({children, className}:React.HTMLAttributes<HTMLDivElement>) => {
     return (
-        <h1 className={cn(className, "text-lg")}>{children}</h1>
+        <h1 className={cn(className, "text-lg font-bold")}>{children}</h1>
     )
 }
 const ReserveItemContent = ({children, className}:React.HTMLAttributes<HTMLDivElement>) => {
