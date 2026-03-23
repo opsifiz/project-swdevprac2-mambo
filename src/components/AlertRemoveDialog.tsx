@@ -1,0 +1,55 @@
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+import { Trash2 } from "lucide-react"
+import { toast } from "sonner";
+
+export function AlertRemoveDialog({id}:{id:string}) {
+    const handleRemove = async () => {
+        try {
+            const resp = await fetch(`/api/reservations/${id}`, {
+                method: 'DELETE'
+            });
+            const data = await resp.json();
+            if(!resp.ok) {
+                throw new Error(data.message || "Failed to delete reservation");
+            }
+            toast.success("Reservation deleted!", {position: 'top-center'})
+        } catch(err) {
+            console.log(err);
+            toast.error("Failed to delete reservation.", {
+                position: 'top-center',
+                description: err instanceof Error ? err.message : "Something went wrong.",
+            });
+        }
+    }
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant={'ghost'}><Trash2 className="h-4 w-4 stroke-red-400"/></Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Remove Reservation</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete this
+            reservation data from our servers.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction variant={'destructive'} onClick={handleRemove}>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}

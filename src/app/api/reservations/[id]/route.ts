@@ -242,7 +242,7 @@ export async function PUT(req: NextRequest, {params}:{params: Promise<{id: strin
     }
 }
 
-export async function DELETE({params}:{params: Promise<{id: string}>}) {
+export async function DELETE(req: NextRequest, {params}:{params: Promise<{id: string}>}) {
     try {
         const session = await getServerSession(authOptions);
 
@@ -279,7 +279,7 @@ export async function DELETE({params}:{params: Promise<{id: string}>}) {
             });
         }
         await reservation.deleteOne();
-        NextResponse.json({
+        return NextResponse.json({
             success: true, 
             data: {}
         }, {
