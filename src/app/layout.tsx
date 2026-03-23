@@ -7,6 +7,13 @@ import { authOptions } from "@/lib/auth";
 import { Toaster } from "sonner";
 import TopMenu from "@/components/TopMenu";
 
+import { Grandiflora_One } from 'next/font/google';
+
+const grandiflora = Grandiflora_One({
+  subsets: ['latin'],
+  weight: '400',
+});
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -33,7 +40,7 @@ export default async function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full">
+      <body className={grandiflora.className}>
 
         <TopMenu />
         <NextAuthProvider session={session}>

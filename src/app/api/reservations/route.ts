@@ -56,10 +56,6 @@ export async function GET(req: NextRequest) {
                 {$unset: ['restaurantData', 'userData']}
             ]);
         } else {
-            // query = Reservation.find({}).populate({
-            //     path: 'restaurant',
-            //     select: 'name address tel'
-            // });
             query = Reservation.aggregate([
                 {$lookup: {
                     from: 'restaurants',

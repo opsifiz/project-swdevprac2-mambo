@@ -45,7 +45,7 @@ export function AlertRemoveDialog({id, removeReserve}:AlertRemoveParam) {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Remove Reservation</AlertDialogTitle>
+          <AlertDialogTitle className="font-bold">Remove Reservation</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete this
             reservation data from our servers.

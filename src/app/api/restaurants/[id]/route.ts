@@ -30,12 +30,15 @@ export async function GET(
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await connectDB();
 
   try {
-    if (!mongoose.Types.ObjectId.isValid(params.id)) {
+
+    const { id } = await params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(
         { success: false, message: "Invalid restaurant ID" },
         { status: 400 }
@@ -45,7 +48,7 @@ export async function PUT(
     const body = await req.json();
 
     const restaurant = await Restaurant.findByIdAndUpdate(
-      params.id,
+      id,
       body,
       { new: true, runValidators: true }
     );
@@ -62,19 +65,22 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   await connectDB();
 
   try {
-    if (!mongoose.Types.ObjectId.isValid(params.id)) {
+
+    const { id } = await params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(
         { success: false, message: "Invalid restaurant ID" },
         { status: 400 }
       );
     }
 
-    const restaurant = await Restaurant.findById(params.id);
+    const restaurant = await Restaurant.findById(id);
 
     if (!restaurant) {
       return NextResponse.json(
@@ -83,8 +89,8 @@ export async function DELETE(
       );
     }
 
-    await Reservation.deleteMany({ restaurant: params.id });
-    await Restaurant.deleteOne({ _id: params.id });
+    await Reservation.deleteMany({ restaurant: id });
+    await Restaurant.deleteOne({ _id: id });
 
     return NextResponse.json({ success: true, data: {} });
   } catch {

@@ -139,6 +139,8 @@ export async function POST(req: NextRequest, {params}:{params: Promise<{id: stri
                 status: 404
             });
         }
+
+        // console.log(restaurant);
         const openTime = restaurant.openTime;
         const closeTime = restaurant.closeTime;
         const startTime = body.startDateTime.slice(11, 16);

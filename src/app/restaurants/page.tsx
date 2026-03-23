@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
-import { ReserveItemContainer, ReserveItemContent, ReserveItemHeader } from "@/components/ReserveItem";
+import Light from "@/components/ui/Light";
 import Link from "next/link";
 import { Box } from "@mui/material";
 import Card from "@/components/ui/Card";
@@ -22,6 +22,10 @@ export default async function RestaurantsPage() {
     // console.log(reservations);
 
     return (
+
+        <>
+        <Light/>
+
         <div className="relative flex justify-center mt-20">
 
         <div className="fixed inset-0 -z-10 pointer-events-none">
@@ -62,5 +66,6 @@ export default async function RestaurantsPage() {
             </Box>
 
         </div>
+        </>
     )
 }
