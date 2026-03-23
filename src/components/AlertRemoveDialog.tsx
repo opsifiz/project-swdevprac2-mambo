@@ -13,7 +13,12 @@ import { Button } from "@/components/ui/button"
 import { Trash2 } from "lucide-react"
 import { toast } from "sonner";
 
-export function AlertRemoveDialog({id}:{id:string}) {
+type AlertRemoveParam = {
+    id: string,
+    removeReserve?: () => void,
+}
+
+export function AlertRemoveDialog({id, removeReserve}:AlertRemoveParam) {
     const handleRemove = async () => {
         try {
             const resp = await fetch(`/api/reservations/${id}`, {
@@ -24,6 +29,7 @@ export function AlertRemoveDialog({id}:{id:string}) {
                 throw new Error(data.message || "Failed to delete reservation");
             }
             toast.success("Reservation deleted!", {position: 'top-center'})
+            removeReserve?.();
         } catch(err) {
             console.log(err);
             toast.error("Failed to delete reservation.", {
