@@ -114,6 +114,7 @@ export async function POST(req: NextRequest, {params}:{params: Promise<{id: stri
     try {
 
         const {id} = await params;
+        // console.log(id);
         const session = await getServerSession(authOptions);
         const user = session?.user as UserType|undefined;
         // console.log(user);
@@ -138,19 +139,6 @@ export async function POST(req: NextRequest, {params}:{params: Promise<{id: stri
                 status: 404
             });
         }
-        // format again because maybe xss sanitizer explode the data
-        // if (typeof req.body.startDateTime === "string") {
-        //     req.body.startDateTime = req.body.startDateTime.replace(
-        //         /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(\d{3})Z$/,
-        //         "$1.$2Z"
-        //     );
-        // }
-        // if (typeof req.body.endDateTime === "string") {
-        //     req.body.endDateTime = req.body.endDateTime.replace(
-        //         /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(\d{3})Z$/,
-        //         "$1.$2Z"
-        //     );
-        // }
         const openTime = restaurant.openTime;
         const closeTime = restaurant.closeTime;
         const startTime = body.startDateTime.slice(11, 16);
@@ -199,7 +187,7 @@ export async function POST(req: NextRequest, {params}:{params: Promise<{id: stri
         
 
         const reservation = await Reservation.create(body);
-        NextResponse.json({
+        return NextResponse.json({
             success: true,
             data: reservation
         }, {

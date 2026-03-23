@@ -4,6 +4,8 @@ import { headers } from "next/headers";
 import ReservationClient from "./ReservationClient";
 
 export default async function ReservationPage() {
+console.log("inner")
+
     const h = await headers();
     const reservationsRes = await fetch(`${process.env.NEXTAUTH_URL}/api/reservations`, {
         cache: 'no-store',
