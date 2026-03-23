@@ -6,7 +6,7 @@ import { FreeMode, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/free-mode";
 
-import Card from "./Card";
+import Card from "@/components/ui/Card";
 import Link from "next/link";
 
 export default function MySwiper({ restaurants }: any) {
