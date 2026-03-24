@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar"
 import Container from "@/components/ui/container"
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";

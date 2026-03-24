@@ -134,6 +134,6 @@
 }
 
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE, Edge เก่า */
-  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
