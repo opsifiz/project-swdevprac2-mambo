@@ -41,8 +41,15 @@ export function AlertRemoveDialog({id, removeReserve}:AlertRemoveParam) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant={'ghost'}><Trash2 className="h-4 aspect-square stroke-red-400"/></Button>
-      </AlertDialogTrigger>
+        <Button variant="ghost" className="relative group w-20 h-20 rounded-full overflow-hidden p-0">
+
+          <div className="absolute inset-0 bg-gradient-to-br from-[#E4E4E4] to-[#949494]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#FFA1A1] to-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+          <Trash2 className=" relative z-10 !h-9 !w-8 text-red-500 opacity-0 group-hover:opacity-100  transition-opacity duration-300  pointer-events-none " />
+
+          </Button>
+        </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle className="font-bold">Remove Reservation</AlertDialogTitle>
