@@ -21,7 +21,7 @@ console.log("inner")
     const reservations = reservationsData.data;
     
     return (
-        <div className="w-full min-h-dvh flex flex-col px-12">
+        <div className="w-full min-h-dvh flex flex-col px-4 sm:px-12">
             <div className="fixed inset-0 -z-10">
             <img
               src="/images/BG2.png"

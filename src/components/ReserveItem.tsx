@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils"
-import { HTMLAttributes } from "react"
 
 const ReserveItemContainer = ({children, className, ...props}:React.HTMLAttributes<HTMLDivElement>) => {
     return (
@@ -12,12 +11,12 @@ const ReserveItemContainer = ({children, className, ...props}:React.HTMLAttribut
 
 const ReserveItemHeader = ({children, className}:React.HTMLAttributes<HTMLDivElement>) => {
     return (
-        <h1 className={cn(className, "text-[30px] font-bold [text-shadow:0_4px_20px_rgba(0,0,0,1)]")}>{children}</h1>
+        <h1 className={cn(className, "text-xs sm:text-lg md:text-2xl font-bold [text-shadow:0_4px_20px_rgba(0,0,0,1)]")}>{children}</h1>
     )
 }
 const ReserveItemContent = ({children, className}:React.HTMLAttributes<HTMLDivElement>) => {
     return (
-        <p className={cn(className, "text-[22px] font-semi-bold [text-shadow:0_4px_20px_rgba(0,0,0,1)]")}>{children}</p>
+        <p className={cn(className, "text-xs sm:text-lg md:text-2xl font-semi-bold [text-shadow:0_4px_20px_rgba(0,0,0,1)]")}>{children}</p>
     )
 }
 

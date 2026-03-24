@@ -65,7 +65,7 @@ export default function EditReserve({id, initReservation}:{id: string, initReser
     }
     
     return (
-        <Container className="col-span-2 bg-white">
+        <Container className="sm:col-span-2 bg-white ">
             <p>Restaurant Name: {reservation.restaurantName ?? "Unknown"}</p>
             <p>Reserved Address: {reservation.restaurantAddress ?? "Unknown"}</p>
             <p>Available Time: {reservation.openTime ?? "Unknown"} - {reservation.closeTime ?? "Unknown"}</p>
