@@ -4,8 +4,12 @@ import Light from "@/components/ui/Light";
 import Link from "next/link";
 import { Box } from "@mui/material";
 import Card from "@/components/ui/Card";
+import Comment from "@/models/comment";
+import { connectDB } from "@/lib/db";
+import mongoose from "mongoose";
 
 export default async function RestaurantsPage() {
+
     const h = await headers();
     const restaurantsRes = await fetch(`${process.env.NEXTAUTH_URL}/api/restaurants`, {
         cache: 'no-store',
@@ -20,6 +24,21 @@ export default async function RestaurantsPage() {
     const restaurants = restaurantsData.data;
     // console.log(reservationsRes);
     // console.log(reservations);
+
+      await connectDB();
+    
+      const ratings = await Comment.aggregate([
+        {
+          $group: {
+            _id: "$r_id",
+            avgStar: { $avg: "$star" },
+          },
+        },
+      ]);
+    
+      const ratingMap = Object.fromEntries(
+        ratings.map(r => [r._id.toString(), r.avgStar])
+      );
 
     return (
 
@@ -41,8 +60,9 @@ export default async function RestaurantsPage() {
             <div className="absolute max-w-5xl w-full h-154 justify-center py-8 px-8 z-30 mr-[600px] mt-[15px] overflow-auto bg-white rounded-3xl border-2 border-black  no-scrollbar">
                 <Box className="grid grid-cols-2 justify-center gap-10 w-full">
                 {restaurants.map((it: any) => (
+
                     <Link href={`/restaurants/${it._id}`} key={it._id}>
-                    <Card imgSrc={it.imgsrc} venueName={it.name} />
+                    <Card restaurant={it} ratingMap={ratingMap} />
                     </Link>
                 ))}
                 </Box>

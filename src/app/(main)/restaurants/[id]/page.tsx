@@ -3,6 +3,9 @@ import { headers } from "next/headers";
 import { Box } from "@mui/material";
 import Light from "@/components/ui/Light"
 import RestaurantClient from "./RestaurantClient";
+import Comment from "@/models/comment";
+import { connectDB } from "@/lib/db";
+import mongoose from "mongoose";
 
 
 export default async function RestaurantsPage({params}: {params: Promise<{id: string}>}) {
@@ -27,10 +30,29 @@ export default async function RestaurantsPage({params}: {params: Promise<{id: st
     // console.log(reservationsRes);
     // console.log(reservations);
 
+    await connectDB();
+
+    const result = await Comment.aggregate([
+    {
+        $match: {
+        r_id: id,
+        },
+    },
+    {
+        $group: {
+        _id: "$r_id",
+        avgStar: { $avg: "$star" },
+        count: { $sum: 1 },
+        },
+    },
+    ]);
+
+    const avgStar = result[0]?.avgStar || 0;
+
     return (
         <>
             <Light/>
-            <RestaurantClient restaurants={restaurants}/>
+            <RestaurantClient restaurants={restaurants} rating={avgStar}/>
         </>
     )
 }

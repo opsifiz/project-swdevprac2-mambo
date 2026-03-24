@@ -53,17 +53,17 @@ const AddReserveCard = ({restaurant, closeCard}:{restaurant:RestaurantType, clos
 
     return (
         <div className="z-50 fixed inset-0 bg-black/50 flex justify-center items-center h-dvh w-dvw">
-            <div className="bg-white rounded-md p-4 shadow space-y-4">
+            <div className="bg-white rounded-md p-4 shadow space-y-4 font-bold">
                 <div className="flex justify-between">
-                    <h1 className="text-lg font-bold">Add Reservation</h1>
+                    <h1 className="text-lg ">Add Reservation</h1>
                     <Button variant={'destructive'} onClick={() => closeCard()}>X</Button>
                 </div>
-                <h1 className="font-bold">Reserve User</h1>
+                <h1>Reserve User</h1>
                 <div>
                     <p>User: {user?.name}</p>
                     <p>Tel: {user?.telephone}</p>
                 </div>
-                <h1 className="font-bold">Reserve Data</h1>
+                <h1>Reserve Data</h1>
                 <div>
                     <p>Available Time: {restaurant.openTime ?? "Unknown"} - {restaurant.closeTime ?? "Unknown"}</p>
                     <span className="space-x-2">

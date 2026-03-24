@@ -1,18 +1,22 @@
 import InteractiveCard from "./InteractiveCard";
-import Rating from '@mui/material/Rating';
+import Rating from "@mui/material/Rating";
 import { Box } from "@mui/material";
+import { RestaurantType } from "@/types/types";  
 
-export default function Card( {imgSrc , venueName , onRatingChange}:{imgSrc:string , venueName:string ,onRatingChange?: (venueName: string, rating: number) => void} ) {
 
-  // const [value, setValue] = useState<number | null>(2);
-  
+export default function Card({
+  restaurant,ratingMap 
+}: {
+  restaurant: RestaurantType , ratingMap:Record<string, number>;
+}) {
+
+  const avgStar = ratingMap[restaurant._id] || 0;
+
   return (
-  <>
-      <InteractiveCard>
-
+    <InteractiveCard>
       <Box className="relative w-full h-full">
         <img
-          src={imgSrc}
+          src={restaurant.imgsrc}
           className="w-full h-full object-cover rounded-[20px]"
         />
 
@@ -23,30 +27,33 @@ export default function Card( {imgSrc , venueName , onRatingChange}:{imgSrc:stri
             left: 0,
             width: "100%",
             height: "40%",
-            background: "linear-gradient(to top, rgba(0, 0, 0, 1), transparent)",
+            background:
+              "linear-gradient(to top, rgba(0, 0, 0, 1), transparent)",
             borderBottomLeftRadius: 20,
             borderBottomRightRadius: 20,
           }}
         />
 
         <Rating
-          value={5}
+          value={avgStar}
+          precision={0.5}
           readOnly
           sx={{
             position: "absolute",
             bottom: 12,
             left: 16,
             zIndex: 2,
-            fontSize: "2rem"
+            fontSize: "2rem",
           }}
         />
 
-        <button className="font-bold h-8 w-35 absolute bg-white bottom-2 right-2 rounded-xl text-right p-2 flex items-center justify-end" style={{zIndex: 3}}>
+        <button
+          className="font-bold h-8 w-35 absolute bg-white bottom-2 right-2 rounded-xl text-right p-2 flex items-center justify-end"
+          style={{ zIndex: 3 }}
+        >
           SEE MORE
         </button>
-
       </Box>
-      </InteractiveCard>
-  </>
+    </InteractiveCard>
   );
 }

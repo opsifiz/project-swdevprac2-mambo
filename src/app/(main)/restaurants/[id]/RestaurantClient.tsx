@@ -5,7 +5,7 @@ import type { RestaurantType } from "@/types/types"
 import { AddReserveCard } from "@/components/AddReserveCard";
 import { Rating } from "@mui/material";
 
-export default function RestaurantClient({restaurants}:{restaurants:RestaurantType}) {
+export default function RestaurantClient({restaurants,rating}:{restaurants:RestaurantType , rating:number;}) {
     const [showCard, setShowCard] = useState(false);
     return (
         <main className="flex flex-col justify-center items-center w-full flex-1 mt-5">
@@ -41,7 +41,7 @@ export default function RestaurantClient({restaurants}:{restaurants:RestaurantTy
               </svg>
 
               <Rating
-                value={5}
+                value={rating}
                 readOnly
                 sx={{
                   position: "absolute",
@@ -57,6 +57,7 @@ export default function RestaurantClient({restaurants}:{restaurants:RestaurantTy
                   },
 
                   "& .MuiRating-iconEmpty svg": {
+                    fill: "#333" ,
                     stroke: "#333",
                     strokeWidth: 1,
                   },

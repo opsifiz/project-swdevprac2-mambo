@@ -1,27 +1,26 @@
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import MySwiper from './mySwiper';
-
-type RatingAction = 
-  | { type: 'SET_RATING'; venueName: string; rating: number }
-  | { type: 'REMOVE_RATING'; venueName: string };
-
-const ratingReducer = (state: Map<string, number>, action: RatingAction) => {
-  switch (action.type) {
-    case 'SET_RATING':
-      return new Map(state).set(action.venueName, action.rating);
-
-    case 'REMOVE_RATING':
-      const newState = new Map(state);
-      newState.delete(action.venueName);
-      return newState;
-
-    default:
-      return state;
-  }
-};
+import Comment from "@/models/comment";
+import { connectDB } from "@/lib/db";
+import mongoose from "mongoose";
 
 export default async function CardPanel() {
+
+  await connectDB();
+
+  const ratings = await Comment.aggregate([
+    {
+      $group: {
+        _id: "$r_id",
+        avgStar: { $avg: "$star" },
+      },
+    },
+  ]);
+
+  const ratingMap = Object.fromEntries(
+    ratings.map(r => [r._id.toString(), r.avgStar])
+  );
 
     const h = await headers();
       const restaurantsRes = await fetch(`${process.env.NEXTAUTH_URL}/api/restaurants`, {
@@ -40,7 +39,7 @@ export default async function CardPanel() {
 
   return (
     <div className="fixed left-0 bottom-0 w-full">
-      <MySwiper restaurants={restaurants} />
+      <MySwiper restaurants={restaurants} ratingMap={ratingMap}/>
     </div>
 
   );

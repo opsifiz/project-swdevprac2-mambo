@@ -9,7 +9,7 @@ import "swiper/css/free-mode";
 import Link from "next/link";
 import Card from "@/components/ui/Card";
 
-export default function MySwiper({ restaurants }: any) {
+export default function MySwiper({ restaurants,ratingMap }: any) {
   return (
     <Swiper
       modules={[FreeMode, Autoplay]}
@@ -28,7 +28,7 @@ export default function MySwiper({ restaurants }: any) {
       {restaurants.map((it: any) => (
         <SwiperSlide key={it._id} className="!w-auto !overflow-visible">
           <Link href={`/restaurants/${it._id}`}>
-            <Card imgSrc={it.imgsrc} venueName={it.name} />
+            <Card restaurant={it} ratingMap={ratingMap} />
           </Link>
         </SwiperSlide>
       ))}
