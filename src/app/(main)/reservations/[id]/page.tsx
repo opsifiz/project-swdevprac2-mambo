@@ -21,10 +21,10 @@ export default async function ReservationPage({params}: {params: Promise<{id: st
     }
     const reservationData = await reservationRes.json();
     const reservation = reservationData.data;
-    console.log(reservation);
+    // console.log(reservation);    
     
     return (
-        <div className="w-full flex flex-col px-12">
+        <div className="w-full flex flex-col px-4">
             <Light/>
 
         <div className="fixed inset-0 -z-10">
@@ -46,9 +46,9 @@ export default async function ReservationPage({params}: {params: Promise<{id: st
           />
         </div>
 
-            <div className="flex-1 py-8 max-w-[1400px] mx-auto w-full ">
-                <h1 className="text-2xl font-bold mb-3">Reservation</h1>
-                <div className="grid grid-cols-3 gap-4">
+            <div className="flex-1 py-8 max-w-[1400px] mx-auto w-full">
+                <h1 className="font-bold mb-3">Reservation</h1>
+                <div className="flex flex-col sm:grid sm:grid-cols-3 gap-4 text-xs sm:text-lg md:text-2xl">
                     <Container className="col-span-1 bg-white">
                         <h1>Reserved User: {reservation.userName ?? "Unknown"}</h1>
                         <h1>User Email: {reservation.userEmail ?? "Unknown"}</h1>

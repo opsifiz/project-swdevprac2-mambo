@@ -41,7 +41,7 @@ export function AlertRemoveDialog({id, removeReserve}:AlertRemoveParam) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant={'ghost'}><Trash2 className="h-4 w-4 stroke-red-400"/></Button>
+        <Button variant={'ghost'}><Trash2 className="h-4 aspect-square stroke-red-400"/></Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
