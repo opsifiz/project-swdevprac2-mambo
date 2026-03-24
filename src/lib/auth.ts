@@ -52,7 +52,6 @@ export const authOptions: AuthOptions = {
       return session;
     },
     async redirect({ url, baseUrl }) {
-      // บังคับให้ไปหน้าแรกเสมอ
       return baseUrl;
     }
   }

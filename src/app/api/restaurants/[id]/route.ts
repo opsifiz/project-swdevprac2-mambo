@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import Restaurant from "@/models/Restaurant";
 import Reservation from "@/models/Reservation";
 import { connectDB } from "@/lib/db";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   { params }: { params: Promise<{id: string}> }
 ) {
 
@@ -29,7 +29,7 @@ export async function GET(
 }
 
 export async function PUT(
-  req: Request,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   await connectDB();
@@ -64,7 +64,7 @@ export async function PUT(
 }
 
 export async function DELETE(
-  req: Request,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   await connectDB();

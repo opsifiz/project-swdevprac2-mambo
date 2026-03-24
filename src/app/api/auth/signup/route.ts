@@ -1,13 +1,11 @@
-// app/api/auth/register/route.ts
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import User from "@/models/User";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const { name, email, password, telephone } = await req.json();
 
-    // Basic validation
     if (!name || !email || !password || !telephone) {
       return NextResponse.json(
         { message: "All fields are required" },

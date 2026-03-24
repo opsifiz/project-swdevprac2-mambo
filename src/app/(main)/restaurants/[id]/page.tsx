@@ -1,12 +1,9 @@
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
-import { Box } from "@mui/material";
 import Light from "@/components/ui/Light"
 import RestaurantClient from "./RestaurantClient";
 import Comment from "@/models/comment";
 import { connectDB } from "@/lib/db";
-import mongoose from "mongoose";
-
 
 export default async function RestaurantsPage({params}: {params: Promise<{id: string}>}) {
     const { id } = await params;

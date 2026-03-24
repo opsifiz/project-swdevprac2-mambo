@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Comment from "@/models/comment";
 import mongoose from "mongoose";
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   { params }: { params: Promise<{ r_id: string }> }
 ) {
   const { r_id } = await params;

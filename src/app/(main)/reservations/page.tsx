@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar"
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import ReservationClient from "./ReservationClient";

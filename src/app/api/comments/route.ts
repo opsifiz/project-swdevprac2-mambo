@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Comment from "@/models/comment";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   await connectDB();
 
   const { searchParams } = new URL(req.url);
@@ -17,7 +17,7 @@ export async function GET(req: Request) {
   return NextResponse.json(comments);
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   await connectDB();
 
   const body = await req.json();
@@ -32,13 +32,10 @@ export async function POST(req: Request) {
   return NextResponse.json(comment);
 }
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  await connectDB();
+export async function DELETE(req: NextRequest) {
+    
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get("id");
 
-  await Comment.findByIdAndDelete(params.id);
-
-  return NextResponse.json({ message: "Deleted" });
+  return NextResponse.json({ message: "Deleted " + id });
 }

@@ -1,10 +1,8 @@
-import { NextResponse } from "next/server";
-import mongoose from "mongoose";
 import Restaurant from "@/models/Restaurant";
 import { connectDB } from "@/lib/db";
-import Reservation from "@/models/Reservation";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   await connectDB();
 
   try {
@@ -45,7 +43,7 @@ export async function GET(req: Request) {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   await connectDB();
 
   try {

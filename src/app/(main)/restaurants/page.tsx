@@ -6,7 +6,6 @@ import { Box } from "@mui/material";
 import Card from "@/components/ui/Card";
 import Comment from "@/models/comment";
 import { connectDB } from "@/lib/db";
-import mongoose from "mongoose";
 
 export default async function RestaurantsPage() {
 

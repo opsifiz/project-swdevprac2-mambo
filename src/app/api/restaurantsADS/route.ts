@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import RestaurantADS from "@/models/RestaurantsAds";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   await connectDB();
 
   try {
