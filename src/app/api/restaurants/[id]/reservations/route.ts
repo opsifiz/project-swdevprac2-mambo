@@ -5,6 +5,7 @@ import type { UserType } from "@/types/types";
 import { connectDB } from "@/lib/db";
 import Reservation from "@/models/Reservation";
 import Restaurant from "@/models/Restaurant";
+import mongoose from "mongoose";
 
 export async function GET(req: NextRequest, {params}:{params: Promise<{id: string}>}) {
     try {
@@ -30,8 +31,8 @@ export async function GET(req: NextRequest, {params}:{params: Promise<{id: strin
             // })
             query = Reservation.aggregate([
                 {$match: {
-                    user: user.id, 
-                    restaurant: id
+                    user: new mongoose.Types.ObjectId(user.id), 
+                    restaurant: new mongoose.Types.ObjectId(id)
                 }},
                 {$lookup: {
                     from: 'restaurants',
@@ -63,7 +64,7 @@ export async function GET(req: NextRequest, {params}:{params: Promise<{id: strin
             // });
             query = Reservation.aggregate([
                 {$match: {
-                    restaurant: id
+                    restaurant: new mongoose.Types.ObjectId(id)
                 }},
                 {$lookup: {
                     from: 'restaurants',
