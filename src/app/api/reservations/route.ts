@@ -6,7 +6,7 @@ import { authOptions } from "@/lib/auth";
 import type { UserType } from "@/types/types";
 
 import mongoose from "mongoose";
-console.log(mongoose.modelNames());
+// console.log(mongoose.modelNames());
 
 export async function GET(req: NextRequest) {
     try {
@@ -22,6 +22,8 @@ export async function GET(req: NextRequest) {
         }
         
         const user = session.user as UserType;
+        console.log(user);
+        console.log(user.id);
         
         await connectDB();
         let query;
@@ -33,7 +35,7 @@ export async function GET(req: NextRequest) {
             // })
             query = Reservation.aggregate([
                 {$match: {
-                    user: user.id, 
+                    user: new mongoose.Types.ObjectId(user.id),
                 }},
                 {$lookup: {
                     from: 'restaurants',
